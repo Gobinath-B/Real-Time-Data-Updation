@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .button-container {
+      text-align: center;
+    }
+    
+    .like-button {
+      background-color: blue;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .like-icon {
+      display: inline-block;
+      font-size: 24px;
+      vertical-align: middle;
+    }
+    
+    .like-count {
+      display: inline-block;
+      margin-left: 10px;
+      vertical-align: middle;
+      color: white;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button class="like-button" id="button" >
+      <span class="like-icon">&#x2661;</span>
+      <span class="like-count" id="count">0</span>
+    </button>
+  </div>
+
+
+</body>
+<script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+ var socket = io("http://localhost:3000");
+  
+  var likes = document.getElementById('count');
+
+  var btn = document.querySelector('#button');
+  
+  
+  socket.on("connection", ()=>{
+  console.log("Connected");
+  });
+
+  btn.addEventListener('click', ()=>{
+
+      console.log("clicked");
+      socket.emit("liked");
+  })
+  
+  socket.on("likeupdate",(count)=>{
+      likes.textContent = count;
+  })
+
+</script>
+</html>
